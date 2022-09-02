@@ -199,6 +199,21 @@ router.get("/getdetail", authentication, async (req, res) => {
     });
 
 
+    // GET request
+// Getting user info from user id  
+//its like doing localhost:3000/users/1  , this would give you the info of user with id 1
+router.get("/:id", (req, res) => {
+  let id = req.params.id;
+  User.findById(id, function (err, user) {
+      if (err) {
+          res.json("");
+      } else {
+          res.json(user);
+      }
+  })
+});
+
+
 module.exports = router;
 
 
