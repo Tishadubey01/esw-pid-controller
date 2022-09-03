@@ -108,13 +108,13 @@ router.post(
         }
         const { email, password } = req.body;
         try {
-          let stat = await Stat.find({});
-          console.log(stat);
-          if(stat.length > 0){
-            return res.status(400).json({
-                  message: "A user is already logged in"
-            });
-          }
+          // let stat = await Stat.find({});
+          // console.log(stat);
+          // if(stat.length > 0){
+          //   return res.status(400).json({
+          //         message: "A user is already logged in"
+          //   });
+          // }
           let user = await User.findOne({
             email
           });
@@ -128,39 +128,44 @@ router.post(
             return res.status(400).json({
               message: "Incorrect Password !"
             });
+          else
+          {
+            res.send(user._id);
+            return user._id;
+          }
     
-          const payload = {
-            user: {
-              id: user.id
-            }
-          };
+          // const payload = {
+          //   user: {
+          //     id: user._id
+          //   }
+          // };
     
-          let newStat = new Stat({
-            userId: user.id,
-          })
-          newStat.save()
-          .then(()=>{
+          // let newStat = new Stat({
+          //   userId: user._id,
+          // })
+          // newStat.save()
+          // .then(()=>{
             
-                  jwt.sign(
-                        payload,
-                        "secret",
-                        {
-                        expiresIn: 3600
-                        },
-                        (err, token) => {
-                        if (err) throw err;
-                        res.status(200).json({
-                        token
-                        });
-                        }
-                  );
+          //         jwt.sign(
+          //               payload,
+          //               "secret",
+          //               {
+          //               expiresIn: 3600
+          //               },
+          //               (err, token) => {
+          //               if (err) throw err;
+          //               res.status(200).json({
+          //               token
+          //               });
+          //               }
+          //         );
             
-            })
-            .catch(() => {
-                  res.status(400).send({
-                        "error": "Error while saving session"
-                  } )
-            })
+          //   })
+          //   .catch(() => {
+          //         res.status(400).send({
+          //               "error": "Error while saving session"
+          //         } )
+          //   })
         } catch (e) {
           console.error(e);
           res.status(500).json({
@@ -169,7 +174,48 @@ router.post(
         }
       }
     );
-    
+
+
+// router.post("/login", (req, res) => {
+
+//   const email = req.body.email;
+//   const pass = req.body.password;
+//   //const password = req.body.password;
+//   // Find user by email
+//   User.findOne({ email }).then(user => {
+//       // Check if user exists
+//       if (!user) {
+
+//           return res.status(404).send("user not found");
+//       }
+
+//       const isMatch = await bcrypt.compare(pass, user.password);
+//       if (!isMatch)
+//         return res.status(400).json({
+//           message: "Incorrect Password!"
+//         });
+//       else
+//       {
+//         res.send(user._id);
+//         return user._id;
+
+//       }
+
+
+//       // else {
+//       //     if (pass === user.password) {
+//       //         res.send(user._id);
+//       //         return user._id;
+//       //     }
+//       //     else {
+//       //         return res.status(404).send("password is incorrect");
+//       //     }
+//       // }
+//   });
+// });
+
+
+
 router.get("/logout", authentication, async (req, res) => {
       try {
             await Stat.findOneAndDelete({
