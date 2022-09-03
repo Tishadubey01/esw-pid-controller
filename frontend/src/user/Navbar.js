@@ -24,11 +24,14 @@ const Navbar = () => {
           <Button color="inherit" onClick={() => navigate("/home")}>
             Home
           </Button>
-          <Button color="inherit" onClick={() => navigate("/signup")}>
+          {/* <Button color="inherit" onClick={() => navigate("/signup")}>
             Sign Up
           </Button>
           <Button color="inherit" onClick={() => navigate("/login")}>
             Login
+          </Button> */}
+          <Button color="inherit" onClick={() => navigate("/logout")}>
+            Logout
           </Button>
         </Toolbar>
       </AppBar>

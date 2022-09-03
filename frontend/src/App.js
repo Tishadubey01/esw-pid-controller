@@ -3,10 +3,10 @@ import "./App.css";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import LoginPage from "./common/Login";
-import Navbar from "./common/Navbar";
-import AppPage from "./common/App";
-
+import LoginPage from "./user/Login";
+import Navbar from "./user/Navbar";
+import UserApp from "./user/App";
+import CommonApp from "./common/App";
 
 function App() {
   const [ID, setID] = useState("0");
@@ -30,11 +30,14 @@ function App() {
   }, []);
   if (ID == "0") {
     return (
-      <AppPage />
+      <CommonApp />
     );
   }
   else {
     console.log("USER SET");
+    return (
+      <UserApp />
+    );
   }
 
 }
