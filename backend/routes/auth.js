@@ -15,8 +15,8 @@ router.get('/createslots',(req,res)=>{
   const slots = [
     {
       order: 1,
-      start: "10:00", 
-      end: "10:59",
+      start: "00:00", 
+      end: "00:59",
       users: [], 
     },
     {
@@ -149,7 +149,6 @@ router.post('/assignslots', [
 
 
 router.get('/getslots',async (req,res) => {
-  
   const currTime = new Date(Date.now());
   let slots = await Slot.find();
   if(slots != null){
@@ -177,6 +176,40 @@ router.get('/getslots',async (req,res) => {
     });
   }
 })
+
+
+router.get('/getfreeslots', async (req,res) => {
+  const currTime = new Date(Date.now());
+  let slots = await Slot.find();
+  if(slots != null){
+    slots = slots.map((obj) => {
+      let isEmpty = false;
+      if(obj.users.length == 0) isEmpty = true;
+      else {
+        const lastUser = obj.users[obj.users.length-1];
+        if(lastUser.date.toISOString().split("T")[0] != currTime.toISOString().split("T")[0] ){
+          isEmpty = true;
+        }
+      }
+      if (isEmpty == true) {
+        console.log(obj)
+        return {
+          slotId: obj._id,
+          start: obj.start,
+          end: obj.end,
+          isEmpty: isEmpty
+        }
+      }
+    })
+    res.json(slots);
+  }
+  else{
+    res.status(400).json({
+        error: "Error, no free slot found"
+    });
+  }
+})
+
 //Generate a token if a user registers.
 //Throws an error if the user is already been registered using email-id.
 router.post(
@@ -438,11 +471,9 @@ router.post(
     
 router.get("/logout", authentication, async (req, res) => {
       try {
-
             res.json({
                   message: "Logout Success",
             });
-
       } catch (e) {
         res.send({ message: "Error in Logging out" });
       }
