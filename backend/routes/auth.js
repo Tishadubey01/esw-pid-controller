@@ -15,8 +15,8 @@ router.get('/createslots',(req,res)=>{
   const slots = [
     {
       order: 1,
-      start: "00:00", 
-      end: "00:59",
+      start: "10:00", 
+      end: "10:59",
       users: [], 
     },
     {
