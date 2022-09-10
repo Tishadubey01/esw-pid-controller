@@ -19,11 +19,11 @@ const ThingspeakInput = (props) => {
     };
 
     const onChangeKi = (event) => {
-        setKp(event.target.value);
+        setKi(event.target.value);
     };
 
     const onChangeKd = (event) => {
-        setKp(event.target.value);
+        setKd(event.target.value);
     };
 
     const resetInputs = () => {
@@ -91,7 +91,7 @@ const ThingspeakInput = (props) => {
                     label="Ki"
                     variant="outlined"
                     value={ki}
-                    onChange={onChangeKp}
+                    onChange={onChangeKi}
                 />
             </Grid>
 
@@ -100,7 +100,7 @@ const ThingspeakInput = (props) => {
                     label="Kd"
                     variant="outlined"
                     value={kd}
-                    onChange={onChangeKp}
+                    onChange={onChangeKd}
                 />
             </Grid>
 

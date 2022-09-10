@@ -42,7 +42,7 @@ const Login = (props) => {
             })
             //.catch(error => console.error(error))
             .catch(error => {
-                alert("Invalid email/password");
+                alert(error.response.data.message);
                 console.log(error.response.data)
                 localStorage.setItem('USER_ID', 0)
             })

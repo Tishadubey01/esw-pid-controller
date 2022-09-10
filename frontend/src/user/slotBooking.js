@@ -15,6 +15,7 @@ const SlotBooking = (props) => {
     const [password, setPassword] = useState("");
     const [allslots, setAllslots] = useState([]);
     const [selectslot, setSelectslot] = useState("");
+    const [iscorrectslot, setIscorrectslot] = useState("");
 
     useEffect(() => {
         axios
@@ -70,22 +71,35 @@ const SlotBooking = (props) => {
         };
 
         var user_id = 0;
-
+        
         axios
             .post("http://localhost:5000/assignslots", newUser)
             .then((response) => {
                 user_id = response.data;
-                alert("Logged in");
+                alert("Slot booked successfully");
                 console.log(response.data);
-                localStorage.setItem('USER_ID', user_id)
-                window.location.replace("/home")
             })
-            //.catch(error => console.error(error))
             .catch(error => {
-                alert("Invalid email/password");
+                alert(error.response);
                 console.log(error.response.data)
-                localStorage.setItem('USER_ID', 0)
             })
+
+
+
+        // axios
+        //     .post("http://localhost:5000/login", newUser)
+        //     .then((response) => {
+        //         user_id = response.data;
+        //         alert("Logged in");
+        //         console.log(response.data);
+        //         localStorage.setItem('USER_ID', user_id)
+        //         window.location.replace("/home")
+        //     })
+        //     .catch(error => {
+        //         alert("Invalid email/password");
+        //         console.log(error.response.data)
+        //         localStorage.setItem('USER_ID', 0)
+        //     })
 
         resetInputs();
     };
