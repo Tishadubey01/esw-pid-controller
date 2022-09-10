@@ -33,6 +33,10 @@ const Navbar = () => {
           <Button color="inherit" onClick={() => navigate("/logout")}>
             Logout
           </Button>
+
+          <Button color="inherit" onClick={() => navigate("/thingspeakdata")}>
+            Enter data
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

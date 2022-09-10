@@ -6,6 +6,7 @@ import Login from "../user/Login";
 import SignUp from "../user/SignUp";
 import Home from "../user/Home";
 import Logout from "../user/Logout";
+import ThingspeakInput from "./thingspeakInput";
 
 const Layout = () => {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           {/* <Route path="signup" element={<SignUp />} /> */}
           {/* <Route path="login" element={<Login />} /> */}
+          <Route path="thingspeakdata" element={<ThingspeakInput />} />
           <Route path="logout" element={<Logout />} />
         </Route>
       </Routes>
