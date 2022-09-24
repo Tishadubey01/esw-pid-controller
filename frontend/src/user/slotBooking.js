@@ -19,7 +19,7 @@ const SlotBooking = (props) => {
 
     useEffect(() => {
         axios
-          .get("http://localhost:5000/getfreeslots")
+          .get("/getfreeslots")
           .then((res) => {
             // console.log(res.data)
             setAllslots(res.data)
@@ -47,19 +47,7 @@ const SlotBooking = (props) => {
         setPassword("");
     };
 
-    const getAllSlots = (event) => {
-        event.preventDefault();
-        axios
-            .get("http://localhost:5000/createslots")
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.log(error.response.data)
-            })
 
-        resetInputs();
-    };
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -73,7 +61,7 @@ const SlotBooking = (props) => {
         var user_id = 0;
         
         axios
-            .post("http://localhost:5000/assignslots", newUser)
+            .post("/assignslots", newUser)
             .then((response) => {
                 user_id = response.data;
                 alert("Slot booked successfully");
@@ -87,7 +75,7 @@ const SlotBooking = (props) => {
 
 
         // axios
-        //     .post("http://localhost:5000/login", newUser)
+        //     .post("/login", newUser)
         //     .then((response) => {
         //         user_id = response.data;
         //         alert("Logged in");
@@ -111,7 +99,7 @@ const SlotBooking = (props) => {
                 <h2>SLOT BOOKING</h2>
             </Grid>
 
-            <FormControl fullWidth>
+            <FormControl style={{width:"13.5%", marginLeft:"auto", marginRight:"auto"}}>
             <InputLabel id="demo-simple-select-label">Slots</InputLabel>
             <Select
                 labelId="demo-simple-select-label"

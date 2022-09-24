@@ -28,11 +28,13 @@ const Login = (props) => {
             email: email,
             password: password,
         };
+        console.log("email", email)
+        console.log("pwd", password);
 
         var user_id = 0;
 
         axios
-            .post("http://localhost:5000/login", newUser)
+            .post("/login", newUser)
             .then((response) => {
                 user_id = response.data;
                 alert("Logged in");
@@ -42,6 +44,7 @@ const Login = (props) => {
             })
             //.catch(error => console.error(error))
             .catch(error => {
+                console.log("user id", user_id);
                 alert(error.response.data.message);
                 console.log(error.response.data)
                 localStorage.setItem('USER_ID', 0)

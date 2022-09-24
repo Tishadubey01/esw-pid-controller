@@ -61,6 +61,18 @@ router.get('/createslots',(req,res)=>{
       end: "17:59",
       users: [], 
     },
+    {
+      order: 9,
+      start: "23:00", 
+      end: "23:59",
+      users: [], 
+    },
+    {
+      order: 10,
+      start: "00:00", 
+      end: "00:59",
+      users: [], 
+    },
   ]
   Slot.deleteMany({})
   .then( () => {
@@ -297,8 +309,11 @@ router.post(
     })
   ],
   async (req, res) => {
-    const currTime = new Date(Date.now());
+    let currTime = new Date(Date.now());
+
     const errors = validationResult(req);
+    // console.log("type of currentHour", typeof currTime.getHours());
+    // console.log("currentMin", typeof currTime.getMinutes());
 
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -328,6 +343,7 @@ router.post(
       };
 
       let slots = await Slot.find();
+      console.log("Slots.....", slots);
       if(slots != null){
         // console.log(slots)
         slots = slots.filter(obj => 
@@ -335,15 +351,44 @@ router.post(
              return (eleUser.userId == user.id) && (eleUser.date.toISOString().split("T")[0] == currTime.toISOString().split("T")[0]) 
           })
         )
-        // console.log(slots)
+        
         // check if current time is within the slot
-        let currentHour = currTime.getHours();
-        let currentMin = currTime.getMinutes();
+        // let currentHour = 0
+        // if (currTime.getMinutes()+30 >= 60)
+        //   currentHour = (currTime.getHours()+6)%24;
+        // else currentHour = (currTime.getHours()+5)%24;
+        let currentHour = (currTime.getHours()+5)%24;
+        let currentMin = (currTime.getMinutes()+30)%60;
+
+        console.log("currentHour", currTime.getHours());
+        console.log("currentMin", currTime.getMinutes());
+
+        
         if(slots.some(slot => {
-          const hourBegin = parseInt(slot.start.substr(0, 2));
-          const minuteBegin = parseInt(slot.start.substr(3, 2));
-          const hourEnd = parseInt(slot.end.substr(0, 2));
-          const minuteEnd = parseInt(slot.end.substr(3, 2));
+          const now = new Date();
+
+          // LOcal to UTC conversion
+          const hourBeginLocal = parseInt(slot.start.substr(0, 2));
+          const minuteBeginLocal = parseInt(slot.start.substr(3, 2));
+          const hourEndLocal = parseInt(slot.end.substr(0, 2));
+          const minuteEndLocal = parseInt(slot.end.substr(3, 2));
+
+          let d_start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hourBeginLocal, minuteBeginLocal, 0);
+          let d_end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hourEndLocal, minuteEndLocal, 0);
+
+          const hourBegin = d_start.getUTCHours();
+          const minuteBegin = d_start.getUTCMinutes();
+          const hourEnd = d_end.getUTCHours();
+          const minuteEnd = d_end.getUTCMinutes();
+
+
+          console.log("Inside")
+          console.log("hourBegin", hourBegin);
+          console.log("hourEnd", hourEnd);
+          console.log("minuteBegin", minuteBegin);
+          console.log("minuteEnd", minuteEnd);
+          console.log("currentHour", currentHour);
+          console.log("currentMin", currentMin);
           return (currentHour >= hourBegin && currentHour <= hourEnd && currentMin >= minuteBegin && currentMin <= minuteEnd)
         })) {
           jwt.sign(
@@ -364,8 +409,10 @@ router.post(
             }
           );
         }
-        else {       
-          res.status(404).json({
+        else {  
+          console.log("Outside")
+
+          return res.status(404).json({
             message: "Error, incorrect slot."
           });
         }

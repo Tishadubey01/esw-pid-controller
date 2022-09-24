@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.float_container {
+    border: 3px solid #fff;
+    padding: 20px;
+}
+
+.float_child1 {
+    width: 50%;
+    float: left;
+    padding: 20px;
+}  
+
+
+.float_child2 {
+    width: 50%;
+    height: 400px;
+    float: left;
+    padding: 20px;
+}  

@@ -8,11 +8,30 @@ const Home = (props) => {
     setUsername("User");
   }, []);
 
-  const demos = {
+  const currangle = {
     graph:
-      '<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1853807/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>'  
-    // plotly:
-    //   '<iframe src="https://codesandbox.io/embed/q7jmjyplvq?fontsize=14" title="Plotly All Graph Types" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>'
+      '<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1857294/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>'
+  };
+
+  const targetangle = {
+    graph:
+      '<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1853807/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>'
+  };
+
+
+  const kp = {
+    graph:
+      '<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1853807/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>'
+  };
+  
+  const kd = {
+    graph:
+      '<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1853807/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>'
+  };
+
+  const ki = {
+    graph:
+      '<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1853807/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>'
   };
 
   function Iframe(props) {
@@ -26,9 +45,21 @@ const Home = (props) => {
 
   return (  //<div style={{ textAlign: "center" }}>Welcome - {username}</div>;
 
-  <div className="App">
-    <h1>I frame Demo</h1>
-    <Iframe iframe={demos["graph"]} allow="autoplay" />,
+  <div className="App" style={{align:"center"}}>
+    <h1>kp Graph</h1>
+    <Iframe iframe={kp["graph"]} allow="autoplay" />
+
+    <h1>kd Graph</h1>
+    <Iframe iframe={kd["graph"]} allow="autoplay" />
+
+    <h1>ki Graph</h1>
+    <Iframe iframe={ki["graph"]} allow="autoplay" />
+
+    <h1>Target Angle Graph</h1>
+    <Iframe iframe={targetangle["graph"]} allow="autoplay" />
+
+    <h1>Current Angle Graph</h1>
+    <Iframe iframe={currangle["graph"]} allow="autoplay" />
   </div>
 
   );

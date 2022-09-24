@@ -20,7 +20,7 @@ function App() {
     if (!a || a == 0 || a == "") { setID("0"); localStorage.setItem('USER_ID', ''); }
     else {
       setID(a)
-      axios.get('http://localhost:5000/' + a)
+      axios.get('/' + a)
         .then(response => {
           //setType(response.data.type)
           if (response.data == "") { setID("0"); localStorage.setItem('USER_ID', ''); }

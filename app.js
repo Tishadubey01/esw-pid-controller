@@ -3,16 +3,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-//const passport = require('passport');
 const cors= require("cors");
-//onst{MONGOURL}=require("./keys")
 require("./models/User")
 const app = express();
-//Middlewares
 app.use(express.json());
 app.use(cors());
 app.use(require('./routes/auth'))
-mongoose.connect("mongodb://localhost:27017/ews",{
+
+const dotenv = require('dotenv');
+dotenv.config();
+
+// Connect to the MongoDB
+const url = process.env.MONGO_URI;
+mongoose.connect(url, {
     useNewURLParser: true,
     useUnifiedTopology: true,
     // useCreateIndex: true,
@@ -32,6 +35,16 @@ mongoose.connect("mongodb://localhost:27017/ews",{
 app.get('/', function(req, res) {
     res.send('hello');
 });
+
+if (process.env.NODE_ENV == "production") {
+    app.use(express.static("frontend/build"));
+    const path = require("path");
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+    })
+}
+
+
 
 const PORT = process.env.PORT || 5000;
 

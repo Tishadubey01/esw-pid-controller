@@ -9,6 +9,7 @@ function Logout(props) {
 
             <Grid item xs={12}>
                 <h2>Logged out</h2>
+                <br></br>
                 <a href="/login"><p>Login page</p></a>
             </Grid>
         </Grid>

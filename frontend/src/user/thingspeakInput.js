@@ -1,15 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import styles from "./thingspeakInput.module.css";
+import ReactPlayer from "react-player"
 
 const ThingspeakInput = (props) => {
     const [angle, setAngle] = useState("");
     const [kp, setKp] = useState("");
     const [ki, setKi] = useState("");
     const [kd, setKd] = useState("");
+    // const [currangle, setCurrangle] = useState([]);
+    // const [time, setTime] = useState([]);
 
+    // useEffect(() => {
+    //     axios.get("https://api.thingspeak.com/channels/1853807/fields/1.json?results=2").then((response) => {
+    //         console.log(response);
+    //         setCurrangle(response.field5);
+    //         setAngle(response.field1)
+    //     });
+    //   }, []);
+
+      
     const onChangeAngle = (event) => {
         setAngle(event.target.value);
     };
@@ -33,83 +46,107 @@ const ThingspeakInput = (props) => {
         setKd("");
     };
 
-    const onSubmit = (event) => {
-        event.preventDefault();
+    // useEffect(() => {
+    //     axios.get("https://api.thingspeak.com/channels/1853807/fields/1.json").then((response) => {
+    //         console.log(response);
+    //         setAngle(current => [...current, 'Carl']);
+    //         console.log(response.data.feeds.field1)
+    //     });
+    //     axios.get("https://api.thingspeak.com/channels/1853807/fields/5.json").then((response) => {
+    //         console.log(response);
+    //         console.log(response.data.feeds.field5);
+    //         // setCurrangle(response.field5);
+    //     });
+    //   }, []);
 
-        // const newUser = {
-        //     email: email,
-        //     password: password,
-        // };
+    const onSubmit = (e) => {
+        e.preventDefault();
+        console.log(e);
+        fetch('https://api.thingspeak.com/update.json', {
+           method: 'POST',
+           body: JSON.stringify({
+               api_key: "HBOKWG0WPO91090S",
+               field1: angle,
+               field2: kp, 
+               field3: ki,
+               field4: kd
+           }),
+           headers: {
+              'Content-type': 'application/json; charset=UTF-8',
+           },
+        })
 
-        // var user_id = 0;
-
-        // axios
-        //     .post("http://localhost:5000/login", newUser)
-        //     .then((response) => {
-        //         user_id = response.data;
-        //         alert("Logged in");
-        //         console.log(response.data);
-        //         localStorage.setItem('USER_ID', user_id)
-        //         window.location.replace("/home")
-        //     })
-        //     //.catch(error => console.error(error))
-        //     .catch(error => {
-        //         alert("Invalid email/password");
-        //         console.log(error.response.data)
-        //         localStorage.setItem('USER_ID', 0)
-        //     })
 
         resetInputs();
     };
 
     return (
-        <Grid container align={"center"} spacing={2}>
+        <div className={styles.float_container}>
+            <div className={styles.float_child1}>
+            <Grid container align={"center"} spacing={2}>
 
-            <Grid item xs={12}>
-                <h2>Enter Motor Values</h2>
+                <Grid item xs={12}>
+                    <h2>Enter Motor Values</h2>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <TextField
+                        label="Angle"
+                        variant="outlined"
+                        value={angle}
+                        onChange={onChangeAngle}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        label="Kp"
+                        variant="outlined"
+                        value={kp}
+                        onChange={onChangeKp}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <TextField
+                        label="Ki"
+                        variant="outlined"
+                        value={ki}
+                        onChange={onChangeKi}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <TextField
+                        label="Kd"
+                        variant="outlined"
+                        value={kd}
+                        onChange={onChangeKd}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Button variant="contained" onClick={onSubmit}>
+                        Submit
+                    </Button>
+                </Grid>
             </Grid>
-
-            <Grid item xs={12}>
-                <TextField
-                    label="Angle"
-                    variant="outlined"
-                    value={angle}
-                    onChange={onChangeAngle}
+            </div>
+            <div className={styles.float_child2}>
+                {/* <iframe
+                    src="https://player.twitch.tv/?channel=tishadubey01"
+                    height="100%"
+                    width="100%"
+                    allowFullScreen={true}
+                    scrolling="no"
+                    parent={"www.example.com"}
+                >
+                </iframe> */}
+                <ReactPlayer
+                    url="https://www.twitch.tv/tishadubey01"
+                    controls
                 />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField
-                    label="Kp"
-                    variant="outlined"
-                    value={kp}
-                    onChange={onChangeKp}
-                />
-            </Grid>
-
-            <Grid item xs={12}>
-                <TextField
-                    label="Ki"
-                    variant="outlined"
-                    value={ki}
-                    onChange={onChangeKi}
-                />
-            </Grid>
-
-            <Grid item xs={12}>
-                <TextField
-                    label="Kd"
-                    variant="outlined"
-                    value={kd}
-                    onChange={onChangeKd}
-                />
-            </Grid>
-
-            <Grid item xs={12}>
-                <Button variant="contained" onClick={onSubmit}>
-                    Submit
-                </Button>
-            </Grid>
-        </Grid>
+            </div>
+        </div>
     );
 };
 export default ThingspeakInput;
